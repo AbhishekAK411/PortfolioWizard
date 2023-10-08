@@ -1,11 +1,11 @@
 import Typewriter from "typewriter-effect";
 import { IconButton } from "@material-tailwind/react";
-import profileImage from "../../Images/abhishekProfile.png";
+import profileImage from "../../Images/Profile/abhishekProfile.png";
 
 const Profile = () => {
     return (
         <>
-            <section className="w-full h-[750px] backdrop-blur-sm bg-center bg-fixed bg-no-repeat bg-cover bg-[url('Images/1586337.jpg')] flex justify-around items-center">
+            <section className="w-full h-[750px] backdrop-blur-sm bg-center bg-fixed bg-no-repeat bg-cover bg-[url('Images/Background/1586337.jpg')] flex justify-around items-center">
                     <section className="w-[53%] h-[90%] flex items-center justify-center">
                         <section className="w-[60%] h-[80%] flex flex-col gap-y-2 ">
                             <section className="w-full h-[15%] flex items-center">

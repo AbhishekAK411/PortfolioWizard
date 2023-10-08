@@ -14,7 +14,12 @@ module.exports = withMT({
         'jetMono': ['JetBrains Mono', 'Monospace']
       },
       cursor: {
-        "gray": 'url("Images/icons8-connection-status-on-24-gray.png"), pointer',
+        "gray": 'url("Images/Cursor/icons8-connection-status-on-24-gray.png"), pointer',
+      },
+      animation: {
+        'spin-slow': 'spin 12s linear infinite',
+        'spin-medium': 'spin 9s linear infinite',
+        'spin-fast': 'spin 6s linear infinite'
       }
     },
   },
