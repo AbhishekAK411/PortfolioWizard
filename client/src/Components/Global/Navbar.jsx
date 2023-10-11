@@ -6,7 +6,7 @@ const Navbar = () => {
             <nav className="cursor-gray w-full h-[70px] flex justify-between">
                 <section className="w-[35%] h-full flex justify-end">
                     <section className="w-[65%] h-full flex items-center justify-center">
-                        <p className="text-xl font-jetMono text-[#673AB7]"><Typewriter options={{autoStart: true, loop: false}} onInit={(typewriter) => {typewriter.typeString('Abhishek Ashok Kumar').pauseFor(1000).start()}} /></p>
+                        <p className="text-xl font-jetMono text-[#673AB7]"><Typewriter options={{autoStart: true, loop: false}} onInit={(typewriter) => {typewriter.typeString('ABHISHEK ASHOK KUMAR').pauseFor(1000).start()}} /></p>
                     </section>
                 </section>
                 <section className="w-[40%] h-full flex items-center justify-evenly mr-14">

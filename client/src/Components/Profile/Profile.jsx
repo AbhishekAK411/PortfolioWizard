@@ -13,7 +13,7 @@ const Profile = () => {
                             </section>
                             <section className="w-full h-[20%] flex">
                                 <p className="text-6xl font-bold font-jetMono">I'm </p>
-                                <p className="text-6xl font-bold ml-5 whitespace-nowrap bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-[#673AB7]"><Typewriter options={{autoStart: true, loop: true}} onInit={(typewriter) => typewriter.typeString('Developer').pauseFor(1000).deleteAll().typeString('Linux Administrator').pauseFor(1000).deleteAll().typeString('Progammer').pauseFor(1000).deleteAll().typeString('Experienced').pauseFor(1300).start()} /></p>
+                                <p className="text-6xl font-bold ml-5 whitespace-nowrap bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-[#673AB7]"><Typewriter options={{autoStart: true, loop: true}} onInit={(typewriter) => typewriter.typeString('a Developer').pauseFor(1000).deleteAll().typeString('a Linux Administrator').pauseFor(1000).deleteAll().typeString('a Progammer').pauseFor(1000).deleteAll().typeString('Experienced').pauseFor(1300).start()} /></p>
                             </section>
                             <section className="w-[150%] h-[25%]">
                                 <p className="text-blue-gray-900 font-jetMono font-semibold">
