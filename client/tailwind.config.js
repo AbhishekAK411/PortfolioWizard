@@ -16,10 +16,22 @@ module.exports = withMT({
       cursor: {
         "gray": 'url("Images/Cursor/icons8-connection-status-on-24-gray.png"), pointer',
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        }
+      },
       animation: {
         'spin-slow': 'spin 12s linear infinite',
         'spin-medium': 'spin 9s linear infinite',
-        'spin-fast': 'spin 6s linear infinite'
+        'spin-fast': 'spin 6s linear infinite',
+        'fade-in': 'fadeIn 1s ease-in-out forwards',
+        'fade-out': 'fadeOut 1s ease-in-out forwards'
       }
     },
   },

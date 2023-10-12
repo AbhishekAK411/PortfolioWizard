@@ -1,14 +1,214 @@
-// import { useState } from "react";
-import Typewriter from "typewriter-effect";
+import { useState } from "react";
+import { useEffect } from "react";
+import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-const options = {
-    autoStart: true, loop: false, cursor: null
-}
+const Card = ({textIndex}) => {
+    const [showCode, setShowCode] = useState(true);
+    useEffect(() => {
+        setShowCode(false);
+        const timer = setTimeout(() => {
+            setShowCode(true);
+        }, 500);
 
-const Card = () => {
+        return () => clearTimeout(timer);
+    },[textIndex]);
+
+    const codeArray = [`export const controllerFunction = async(req,res) => {
+        try {
+            const {textField1, textField2, textField3} = req.body;
+
+            if(!textField1) return res.status(404).json({status: 404, success: false, message: "Field is required"});
+            if(!textField2) return res.status(404).json({status: 404, success: false, message: "Field is required"});
+            if(!textField3) return res.status(404).json({status: 404, success: false, message: "Field is required"});
+
+            const fieldModel = new FieldModel({
+                field1: field1,
+                field2: field2,
+                field3: field3
+            });
+
+            await fieldModel.save();
+            return res.status(201).json({status: 201, success: true, message: "Fields are added successfully."});
+
+        } catch(error) {
+            return res.status(500).json({status: 500, success: false, message: "Internal Server Error."});
+        }
+    }`,
+    `import react, {useState} from 'react;
+
+    const Counter = () => {
+        const [count, setCount] = useState(0);
+    
+        const incrementCounter = () => {
+            setCount((previousState) => previousState + 1);
+        }
+        const decrementCounter = () => {
+            setCount((previousState) => previousState - 1);
+        }
+    
+        return (
+            <>
+                <h1>Counter App</h1>
+                <p>Count : {count}</p>
+                <button onClick={incrementCounter}>+</button>
+                <button onClick={decrementCounter}>-</button>
+            </>
+        );
+    }
+    
+    export default Counter;`,
+    `import express from 'express';
+    import cors from 'cors';
+    import morgan from 'morgan';
+    import dotenv from 'dotenv';
+    import router from './routes/appRoutes.js';
+    import mongoose from 'mongoose';
+    
+    const app = express();
+    
+    dotenv.config();
+    app.use(morgan('dev'));
+    app.use(cors());
+    app.use(express.json());
+    app.use(express.urlencoded({extended: true}));
+    app.use("/api", router);
+    
+    mongoose.connect(process.env.mongo)
+    .then(() => console.log("DB Connection Established."))
+    .catch((err) => console.log("DB Error -->", err));
+    
+    const port = process.env.port || 3000;
+    app.listen(port, () => console.log(\`Listening on port \${port}\`));`,
+    `import mongoose, { Schema } from "mongoose";
+
+    const fieldSchema = new Schema({
+        field1: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        field2: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        field3: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        field4: {
+            data: Buffer,
+            contentType: String
+        },
+        field5: {
+            type: String,
+        },
+        field6: {
+            type: String
+        },
+        field7: {
+            type: Boolean,
+            default: false
+        },
+        field8: {
+            type: [Object]
+        }
+    });
+    
+    export default mongoose.model("Field", fieldSchema);`,
+    `window.onload = function() {
+        alert("Page has loaded!");
+      
+        const heading = document.querySelector("h1");
+        heading.textContent = "Welcome to My Website";
+      
+        const button = document.querySelector("#myButton");
+        button.addEventListener("click", function() {
+          alert("Button clicked!");
+        });
+      
+        console.log("Page is fully loaded and ready for interactions.");
+      };`,
+      `import React from "react";
+
+      const MyComponent = () => {
+        return (
+          <div className="bg-blue-500 text-white font-bold p-4 rounded-lg shadow-lg">
+            <h1 className="text-2xl">Welcome to My Website</h1>
+            <p className="mt-2">This is a simple React app with Tailwind CSS.</p>
+            <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 mt-4 rounded-lg">
+              Click Me
+            </button>
+            <div className="mt-4">
+              <a
+                href="https://www.example.com"
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Visit Example.com
+              </a>
+            </div>
+            <div className="flex mt-4 space-x-4">
+              <div className="w-1/2">
+                <p className="text-center">Left Column</p>
+              </div>
+              <div className="w-1/2">
+                <p className="text-center">Right Column</p>
+              </div>
+            </div>
+          </div>
+        );
+      };
+      
+      export default MyComponent;
+      `,
+      `import 'package:flutter/material.dart';
+
+      void main() {
+        runApp(MyApp());
+      }
+      
+      class MyApp extends StatelessWidget {
+        @override
+        Widget build(BuildContext context) {
+          return MaterialApp(
+            home: Scaffold(
+              appBar: AppBar(
+                title: Text('Flutter Counter App'),
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Counter Value:',
+                    ),
+                    Text(
+                      '0',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implement the increment functionality here
+                      },
+                      child: Text('Increment Counter'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      }
+      `]
   return (
     <>
-      <section className="bg-white w-full h-full rounded-lg shadow-mac">
+      <section className="bg-[#1d1f21] w-full h-full rounded-lg shadow-mac">
         <section className="flex p-2 gap-1">
           <section className="">
             <span className="bg-red-500 inline-block center w-3 h-3 rounded-full"></span>
@@ -20,170 +220,10 @@ const Card = () => {
             <span className="bg-green-500 box inline-block center w-3 h-3 rounded-full"></span>
           </section>
         </section>
-        <section className="font-jetMono text-black p-2">
-            <section className="flex">
-                <p className="text-purple-300"><Typewriter options={options} onInit={(t) => t.typeString("export const").start()} /></p>
-                <p className="text-[#f89d1a] pl-3"><Typewriter options={options} onInit={(t) => t.pauseFor(2000).typeString("controllerFunction = ").start()} /></p>
-                <p className="text-purple-300 pl-3"><Typewriter options={options} onInit={(t) => t.pauseFor(5000).typeString("async").start()} /></p>
-                <p className="text-red-400"><Typewriter options={options} onInit={(t) => t.pauseFor(6000).typeString("(req,res)").start()} /></p>
-                <p className="text-purple-300 pl-3"><Typewriter options={options} onInit={(t) => t.pauseFor(7500).typeString(" =>  {").start()} /></p>
-            </section>
-            <section className="px-10">
-                <p className="text-purple-300"><Typewriter options={options} onInit={(t) => t.typeString("try {").start()} /></p>
-                <section className="px-10">
-                    <section className="py-5">
-                        <section className="flex">
-                            <p className="text-purple-300"><Typewriter options={options} onInit={(t) => t.typeString("const {").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.pauseFor(1000).typeString("field1, field2, field3").start()} /></p>
-                            <p className="pl-3 text-purple-300"><Typewriter options={options} onInit={(t) => t.pauseFor(3000).typeString("}").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.pauseFor(4000).typeString("=").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter options={options} onInit={(t) => t.pauseFor(5000).typeString("req.body;").start()} /></p>
-                        </section>
-                        <section className="flex">
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("if(").start()} /></p>
-                            <p className="text-[#f89d1a]"><Typewriter  options={options} onInit={(t) => t.typeString("!field1").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(")").start()} /></p>
-                            <p className="pl-3 text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("return ").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("res").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(".").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("status").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(").").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("json").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("{").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("status:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("success:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("false").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("message:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("\"Field 1 is required.\"").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(");").start()} /></p>
-                        </section>
-                        <section className="flex">
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("if(").start()} /></p>
-                            <p className="text-[#f89d1a]"><Typewriter  options={options} onInit={(t) => t.typeString("!field2").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(")").start()} /></p>
-                            <p className="pl-3 text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("return ").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("res").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(".").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("status").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(").").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("json").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("{").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("status:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("success:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("false").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("message:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("\"Field 2 is required.\"").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(");").start()} /></p>
-                        </section>
-                        <section className="flex">
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("if(").start()} /></p>
-                            <p className="text-[#f89d1a]"><Typewriter  options={options} onInit={(t) => t.typeString("!field3").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(")").start()} /></p>
-                            <p className="pl-3 text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("return ").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("res").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(".").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("status").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(").").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("json").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("{").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("status:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("success:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("false").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("message:").start()} /></p>
-                            <p className="pl-3 text-[#f89d1a]"><Typewriter options={options} onInit={(t) => t.typeString("\"Field 3 is required.\"").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(");").start()} /></p>
-                        </section>
-                    </section>
-                    <section className="pb-5">
-                        <Typewriter options={options} onInit={(t) => t.typeString("const userModel = new userModel({").start()} />
-                        <Typewriter options={options} onInit={(t) => t.typeString("field1: field1").start()} />
-                        <Typewriter options={options} onInit={(t) => t.typeString("field2: field2").start()} />
-                        <Typewriter options={options} onInit={(t) => t.typeString("field3: field3").start()} />
-                        <Typewriter options={options} onInit={(t) => t.typeString("});").start()} />
-                    </section>
-                    <section className="pb-5">
-                        <Typewriter options={options} onInit={(t) => t.typeString("await userModel.save();").start()} />
-                        <section className="flex">
-                            <p className="pl-3 text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("return ").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("res").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(".").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("status").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-green-500"><Typewriter  options={options} onInit={(t) => t.typeString("201").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(").").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("json").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("{").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("status:").start()} /></p>
-                            <p className="pl-3 text-green-500"><Typewriter options={options} onInit={(t) => t.typeString("404").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("success:").start()} /></p>
-                            <p className="pl-3 text-green-500"><Typewriter options={options} onInit={(t) => t.typeString("true").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("message:").start()} /></p>
-                            <p className="pl-3 text-green-500"><Typewriter options={options} onInit={(t) => t.typeString("\"User registered successfully.\"").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(");").start()} /></p>
-                        </section>
-                    </section>
-                </section>
-                <section className="py-5">
-                    <section className="flex">
-                        <p className="text-purple-300"><Typewriter options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                        <p className=""><Typewriter options={options} onInit={(t) => t.typeString().start()} /></p>
-                        <p className=""><Typewriter options={options} onInit={(t) => t.typeString().start()} /></p>
-                        <p className=""><Typewriter options={options} onInit={(t) => t.typeString().start()} /></p>
-                        <p className=""><Typewriter options={options} onInit={(t) => t.typeString().start()} /></p>
-                    </section>
-                    <p className="px-10">
-                        <section className="flex">
-                            <p className="pl-3 text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("return ").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("res").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(".").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("status").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("500").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(").").start()} /></p>
-                            <p className="text-cyan-600"><Typewriter  options={options} onInit={(t) => t.typeString("json").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("(").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("{").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("status:").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter options={options} onInit={(t) => t.typeString("500").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("success:").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter options={options} onInit={(t) => t.typeString("false").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(",").start()} /></p>
-                            <p className="text-red-400"><Typewriter  options={options} onInit={(t) => t.typeString("message:").start()} /></p>
-                            <p className="pl-3 text-red-400"><Typewriter options={options} onInit={(t) => t.typeString("\"Internal Server Error\"").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                            <p className="text-purple-300"><Typewriter  options={options} onInit={(t) => t.typeString(");").start()} /></p>
-                        </section>
-                    </p>
-                    <p className="text-purple-300"><Typewriter options={options} onInit={(t) => t.typeString("}").start()} /></p>
-                </section>
-            </section>
-            <p className="text-purple-300"><Typewriter options={options} onInit={(t) => t.typeString("}").start()} /></p>
+        <section className={`font-jetMono text-black p-2 transition-opacity ${showCode ? 'animate-fade-in transition-opacity' : 'opacity-0 transition-opacity'}`}>
+            <SyntaxHighlighter showLineNumbers={true} language="javascript" style={atomDark}>
+                {codeArray[textIndex]}
+            </SyntaxHighlighter>
         </section>
       </section>
     </>
